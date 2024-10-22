@@ -1,0 +1,18 @@
+# node_modules
+node_modules
+
+# .DS_Store
+*.DS_Store
+
+# .next
+.next
+
+# Other
+.gitignore
+README.md
+.dockerignore
+LICENSE
+.docker
+.gitlab
+.git
+.vscode
