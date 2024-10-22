@@ -3,6 +3,7 @@ import { Button } from 'primereact/button';
 import { Column } from 'primereact/column';
 import { DataTable } from 'primereact/datatable';
 import { useEffect, useState } from 'react';
+import { ROUTE } from '../common/constant';
 import { Ticket } from '../common/interfaces/ticket.interface';
 import { useCurrentUser } from '../hooks/use-current-user';
 import { useLogout } from '../hooks/use-logout';
@@ -17,12 +18,12 @@ const TicketListPage = () => {
 
   const { logout } = useLogout();
 
-  const [Tickets, setTickets] = useState<Ticket[]>([]);
+  const [tickets, setTickets] = useState<Ticket[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const handleEdit = (Ticket: Ticket) => {
-    router.push(`/Tickets/${Ticket.id}`);
+  const handleEdit = (ticket: Ticket) => {
+    router.push(`${ROUTE.TICKET}/${ticket.id}`);
   };
 
   const fetchTickets = async () => {
@@ -44,9 +45,9 @@ const TicketListPage = () => {
     }
   };
 
-  const handleDelete = async (TicketId: number) => {
+  const handleDelete = async (ticketId: number) => {
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/Tickets/${TicketId}`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/tickets/${ticketId}`, {
         method: 'DELETE',
         headers,
       });
@@ -98,17 +99,17 @@ const TicketListPage = () => {
                   label="Logout"
                   onClick={() => {
                     logout();
-                    router.push({ pathname: '/auth/login' });
+                    router.push({ pathname: ROUTE.LOGIN });
                   }}
                 />
               )}
             </div>
             <div className="flex">
-              <Button label="Create" type="button" onClick={() => router.push('/Tickets/create')} />
+              <Button label="Create" type="button" onClick={() => router.push(`${ROUTE.TICKET}/create`)} />
             </div>
           </div>
         </div>
-        <DataTable value={Tickets} stripedRows tableStyle={{ minWidth: '50rem' }}>
+        <DataTable value={tickets} stripedRows tableStyle={{ minWidth: '50rem' }}>
           <Column field="title" header="Title" />
           <Column field="description" header="Description" />
           <Column header="Actions" body={actionTemplate} />
