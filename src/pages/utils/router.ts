@@ -1,5 +1,3 @@
-import { ROUTE } from '../common/constant';
-
-export const protectedRoutes = ['/', ROUTE.TICKET, `${ROUTE.TICKET}/[id]`];
+export const protectedRoutes = ['/', '/tickets', '/tickets/[id]', '/tickets/create'];
 export const authRoutes = ['/auth/login'];
 export const publicRoutes = [];

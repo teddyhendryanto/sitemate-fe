@@ -50,6 +50,7 @@ export function middleware(request: NextRequest) {
     response.cookies.delete('currentUser');
   }
 
+  console.log(pathname);
   if (authRoutes.includes(pathname) && currentUser) {
     response = NextResponse.redirect(new URL(ROUTE.TICKET, request.url));
   }
