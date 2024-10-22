@@ -1,14 +1,14 @@
-// import { useLogin } from "@/hooks/use-login";
-import { ROUTE } from "@/pages/common/constant";
-import { AuthResponse } from "@/pages/common/interfaces/auth.interface";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { useRouter } from "next/router";
-import { Button } from "primereact/button";
-import { InputText } from "primereact/inputtext";
-import { classNames } from "primereact/utils";
-import React, { useEffect, useState } from "react";
-import { Controller, SubmitHandler, useForm } from "react-hook-form";
-import * as yup from "yup";
+import { ROUTE } from '@/pages/common/constant';
+import { AuthResponse } from '@/pages/common/interfaces/auth.interface';
+import { useLogin } from '@/pages/hooks/use-login';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { useRouter } from 'next/router';
+import { Button } from 'primereact/button';
+import { InputText } from 'primereact/inputtext';
+import { classNames } from 'primereact/utils';
+import { useEffect, useState } from 'react';
+import { Controller, SubmitHandler, useForm } from 'react-hook-form';
+import * as yup from 'yup';
 
 const schema = yup
   .object({
@@ -23,8 +23,8 @@ const LoginPage = () => {
   const router = useRouter();
   const [loginError, setLoginError] = useState<string | null>(null);
   const defaultValues = {
-    email: "",
-    password: "",
+    email: '',
+    password: '',
   };
 
   const methods = useForm<LoginInput>({
@@ -36,27 +36,26 @@ const LoginPage = () => {
   const [loading, setLoading] = useState(false);
   const [loginResponse, setLoginResponse] = useState<AuthResponse | null>(null);
 
+  useLogin(loginResponse);
+
   const onSubmitHandler: SubmitHandler<LoginInput> = async (formData) => {
-    setLoginError("");
+    setLoginError('');
     setLoading(true);
 
     try {
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/auth/login`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            email: formData.email,
-            password: formData.password,
-          }),
-        }
-      );
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/login`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: formData.email,
+          password: formData.password,
+        }),
+      });
 
       if (!response.ok) {
-        throw new Error("Login failed");
+        throw new Error('Login failed');
       }
 
       const result: AuthResponse = await response.json();
@@ -65,7 +64,7 @@ const LoginPage = () => {
         setLoginResponse(result);
       }
     } catch (err: unknown) {
-      if (err instanceof Error) setLoginError(err?.message ?? "Login failed");
+      if (err instanceof Error) setLoginError(err?.message ?? 'Login failed');
     } finally {
       setLoading(false);
     }
@@ -86,7 +85,7 @@ const LoginPage = () => {
             <Controller
               name="email"
               control={control}
-              rules={{ required: "Email is required." }}
+              rules={{ required: 'Email is required.' }}
               render={({ field, fieldState }) => (
                 <InputText
                   id={field.name}
@@ -95,8 +94,8 @@ const LoginPage = () => {
                   required
                   type="email"
                   className={classNames({
-                    "p-invalid": fieldState.invalid,
-                    "w-12rem": true,
+                    'p-invalid': fieldState.invalid,
+                    'w-12rem': true,
                   })}
                 />
               )}
@@ -107,7 +106,7 @@ const LoginPage = () => {
             <Controller
               name="password"
               control={control}
-              rules={{ required: "Password is required." }}
+              rules={{ required: 'Password is required.' }}
               render={({ field, fieldState }) => (
                 <InputText
                   id={field.name}
@@ -115,22 +114,17 @@ const LoginPage = () => {
                   required
                   type="password"
                   className={classNames({
-                    "p-invalid": fieldState.invalid,
-                    "w-12rem": true,
+                    'p-invalid': fieldState.invalid,
+                    'w-12rem': true,
                   })}
                 />
               )}
             />
           </div>
-          <Button
-            type="submit"
-            label="Login"
-            className="w-10rem mx-auto"
-            disabled={loading}
-          >
-            {loading ? "Logging in..." : ""}
+          <Button type="submit" label="Login" className="w-10rem mx-auto" disabled={loading}>
+            {loading ? 'Logging in...' : ''}
           </Button>
-          {loginError && <p style={{ color: "red" }}>{loginError}</p>}
+          {loginError && <p style={{ color: 'red' }}>{loginError}</p>}
           <div className="flex flex-column gap-0">
             <p>email: test@sitemate.com</p>
             <p>password: 123456</p>

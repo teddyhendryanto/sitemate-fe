@@ -1,0 +1,12 @@
+{
+  "editor.formatOnSave": true,
+  "editor.tabSize": 2,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.codeActionsOnSave": [
+    "source.formatDocument",
+    "source.fixAll.eslint",
+    "source.organizeImports"
+  ],
+  "typescript.preferences.importModuleSpecifier": "relative",
+  "prettier.printWidth": 120
+}
